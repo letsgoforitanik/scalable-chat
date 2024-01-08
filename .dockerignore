@@ -1,0 +1,3 @@
+server/dist/
+kafka-consumer/dist/
+web/.next/

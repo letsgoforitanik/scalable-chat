@@ -1,0 +1,19 @@
+{
+	"name": "scalable-chat",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"build": "turbo build",
+		"dev": "turbo dev"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"workspaces": [
+		"server",
+		"web",
+		"kafka-consumer",
+		"shared/*"
+	]
+}

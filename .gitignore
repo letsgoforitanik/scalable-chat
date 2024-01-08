@@ -1,0 +1,6 @@
+node_modules
+kafka-consumer/dist
+server/dist
+shared/dist
+web/.next
+

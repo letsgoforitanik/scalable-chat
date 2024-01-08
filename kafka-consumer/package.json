@@ -1,0 +1,23 @@
+{
+	"name": "kafka-consumer",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "nodemon src/index.ts",
+		"build": "tsc",
+		"prod": "node dist/index.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"nodemon": "^3.0.2",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.3.3"
+	},
+	"dependencies": {
+		"kafkajs": "^2.2.4",
+		"@shared/db": "1.0.0"
+	}
+}

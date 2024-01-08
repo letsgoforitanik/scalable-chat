@@ -1,0 +1,65 @@
+services:
+  nginx-lb:
+    depends_on:
+      - backend3
+    build: ./nginx
+    ports:
+      - 80:80
+  backend1:
+    build: 
+      context: .
+      dockerfile: Dockerfile.server
+    image: chat-server
+    environment:
+      - PORT=3000
+      - REDIS_URI=rediss://default:AVNS_dnFH19dhfiY8AtCfEfk@redis-2d67c6d4-letsgoforitanik-8f52.a.aivencloud.com:20094
+      - KAFKA_URI=kafka-7000e08-letsgoforitanik-8f52.a.aivencloud.com:20095
+      - KAFKAJS_NO_PARTITIONER_WARNING=1
+      - DATABASE_URL=postgres://avnadmin:AVNS_nN7dA9HiDpeItCZmkkZ@pg-1f88603a-letsgoforitanik-8f52.a.aivencloud.com:20093/defaultdb?sslmode=require&sslcert=ca.pem
+  backend2:
+    depends_on:
+      - backend1
+    image: chat-server
+    environment:
+      - PORT=3000
+      - REDIS_URI=rediss://default:AVNS_dnFH19dhfiY8AtCfEfk@redis-2d67c6d4-letsgoforitanik-8f52.a.aivencloud.com:20094
+      - KAFKA_URI=kafka-7000e08-letsgoforitanik-8f52.a.aivencloud.com:20095
+      - KAFKAJS_NO_PARTITIONER_WARNING=1
+      - DATABASE_URL=postgres://avnadmin:AVNS_nN7dA9HiDpeItCZmkkZ@pg-1f88603a-letsgoforitanik-8f52.a.aivencloud.com:20093/defaultdb?sslmode=require&sslcert=ca.pem
+  backend3:
+    depends_on:
+      - backend2
+    image: chat-server
+    environment:
+      - PORT=3000
+      - REDIS_URI=rediss://default:AVNS_dnFH19dhfiY8AtCfEfk@redis-2d67c6d4-letsgoforitanik-8f52.a.aivencloud.com:20094
+      - KAFKA_URI=kafka-7000e08-letsgoforitanik-8f52.a.aivencloud.com:20095
+      - KAFKAJS_NO_PARTITIONER_WARNING=1
+  consumer1:
+    depends_on:
+      - backend1
+    build: 
+      context: .
+      dockerfile: Dockerfile.kafka-consumer
+    image: kafka-consumer
+    environment:
+      - KAFKA_URI=kafka-7000e08-letsgoforitanik-8f52.a.aivencloud.com:20095
+      - KAFKAJS_NO_PARTITIONER_WARNING=1
+      - DATABASE_URL=postgres://avnadmin:AVNS_nN7dA9HiDpeItCZmkkZ@pg-1f88603a-letsgoforitanik-8f52.a.aivencloud.com:20093/defaultdb?sslmode=require&sslcert=ca.pem
+  consumer2:
+    depends_on:
+      - consumer1
+    image: kafka-consumer
+    environment:
+      - KAFKA_URI=kafka-7000e08-letsgoforitanik-8f52.a.aivencloud.com:20095
+      - KAFKAJS_NO_PARTITIONER_WARNING=1
+      - DATABASE_URL=postgres://avnadmin:AVNS_nN7dA9HiDpeItCZmkkZ@pg-1f88603a-letsgoforitanik-8f52.a.aivencloud.com:20093/defaultdb?sslmode=require&sslcert=ca.pem
+  web:
+    build: 
+      context: .
+      dockerfile: Dockerfile.web
+    image: web
+    ports:
+      - 3000:3000
+  
+  
